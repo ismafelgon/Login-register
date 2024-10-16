@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión y Registro</title>
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1B1B2F;
+        }
+        .container {
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #CCCCCC;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #575A60;
+            color: white;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28CCD6;
+            border: none;
+            color: #444444;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #28CCD6;
+        }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .link a {
+            color: #28CCD6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="login-form">
+    <h1>Iniciar Sesión</h1>
+    <form id="formLogin">
+        <label for="username">Nombre de usuario</label>
+        <input type="text" id="username" placeholder="Usuario" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Contraseña" required>
+
+        <input type="submit" value="Iniciar sesión">
+    </form>
+    <div class="link">
+        <a href="#" id="goToRegister">¿No tienes una cuenta? Regístrate</a>
+    </div>
+</div>
+
+<div class="container" id="register-form" style="display: none;">
+    <h1>Registro</h1>
+    <form id="formRegister">
+        <label for="newUsername">Nombre de usuario</label>
+        <input type="text" id="newUsername" placeholder="Usuario" required>
+
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" placeholder="Correo" required>
+
+        <label for="newPassword">Contraseña</label>
+        <input type="password" id="newPassword" placeholder="Contraseña" required>
+
+        <input type="submit" value="Registrarse">
+    </form>
+    <div class="link">
+        <a href="#" id="goToLogin">¿Ya tienes una cuenta? Inicia sesión</a>
+    </div>
+</div>
+
+<script>
+    let sesionIniciada = false;
+    const registeredUsers = [];
+
+    // Mostrar formulario de registro
+    document.getElementById('goToRegister').addEventListener('click', function() {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'block';
+    });
+
+    // Mostrar formulario de inicio de sesión
+    document.getElementById('goToLogin').addEventListener('click', function() {
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('register-form').style.display = 'none';
+    });
+
+    // Función para registrar un nuevo usuario
+    document.getElementById('formRegister').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const newUsername = document.getElementById('newUsername').value;
+        const email = document.getElementById('email').value;
+        const newPassword = document.getElementById('newPassword').value;
+
+        if (newUsername && email && newPassword) {
+            registeredUsers.push({ username: newUsername, email: email, password: newPassword });
+            alert('Registro exitoso. Ahora puedes iniciar sesión.');
+            document.getElementById('formRegister').reset();
+            document.getElementById('goToLogin').click();
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    });
+
+    // Función para iniciar sesión
+    document.getElementById('formLogin').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const user = registeredUsers.find(u => u.username === username && u.password === password);
+        if (user) {
+            sesionIniciada = true;
+            alert('Inicio de sesión exitoso.');
+            // Aquí puedes redirigir o mostrar contenido exclusivo para usuarios
+        } else {
+            alert('Credenciales incorrectas. Intenta nuevamente.');
+        }
+    });
+</script>
+
+</body>
+</html>
